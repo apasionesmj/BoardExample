@@ -21,7 +21,9 @@ public class ListAction implements CommandProcess {
 				List<Board> list = bd.list(startRow, endRow);	
 				int pageCnt = (int)Math.ceil((double)totCnt/pageSize);
 				int startPage = (int)(currentPage-1)/blockSize*blockSize + 1;
-				int endPage = startPage + blockSize -1;	
+				int endPage = startPage + blockSize -1;
+				//검색 여부 -> 1은 검색 0 은 전체
+				int SearchYN = 0;
 				if (endPage > pageCnt) endPage = pageCnt;	
 			
 				request.setAttribute("totCnt", totCnt);
@@ -33,6 +35,7 @@ public class ListAction implements CommandProcess {
 				request.setAttribute("pageCnt", pageCnt);
 				request.setAttribute("startPage", startPage);
 				request.setAttribute("endPage", endPage);
+				request.setAttribute("SearchYN", SearchYN);
 				 
 				System.out.println("-----------------------------------------------");  // /ch16/list.do
 				System.out.println("startROW-->" + startRow);  // /ch16/list.do

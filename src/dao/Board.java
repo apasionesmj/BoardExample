@@ -16,6 +16,7 @@ public class Board {
 	private String ip;
 	private Date reg_date;
 	
+	
 	public int getNum() {
 		return num;
 	}

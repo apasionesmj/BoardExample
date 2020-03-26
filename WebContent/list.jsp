@@ -20,7 +20,8 @@ table {
 	<form action="searchPro.do?pageNum=${pageNum}" method="post">
 		<tr>
 			<td>검색</td>
-			<td><input type="text" name="search"></td>
+			<!-- ${search} 는 검색창을 통하여 검색한 값을 유지하기 위함. -->
+			<td><input type="text" name="search" value="${search }"></td>
 			<td><input type="submit" value="확인"></td>
 		</tr>
 	</form>
@@ -39,9 +40,6 @@ table {
 			<th>작성일</th>
 			<th>조회수</th>
 		</tr>
-		<TR>
-			<TD>${startNum }</TD>
-		</TR>
 		<c:if test="${totCnt > 0 }">
 			<c:forEach var="board" items="${list }">
 				<tr>
@@ -70,16 +68,29 @@ table {
 			</tr>
 		</c:if>
 	</table>
-
+	
+	<!-- 하위의 SearchYN 의 경우 검색 여부에 따라 링크 주소가 다르기 떄문에 If 조건 삽입. -->
 	<div style="text-align: center;">
 		<c:if test="${startPage > blockSize }">
-			<a href='list.do?pageNum=${startPage-blockSize}'>[이전]</a>
+			<c:if test="${SearchYN == 0}">
+				<a href='list.do?pageNum=${startPage-blockSize}'>[이전]</a>
+			</c:if>
+			<c:if test="${SearchYN == 1}">
+				<a href='searchPro.do?pageNum=${startPage-blockSize}&search=${search}'>[이전]</a>
+			</c:if>
 		</c:if>
 		<c:forEach var="i" begin="${startPage}" end="${endPage}">
-			<a href='list.do?pageNum=${i}'>[${i}]</a>
+			<c:if test="${SearchYN == 0}">
+				<a href='list.do?pageNum=${i}'>[${i}]</a>
+			</c:if>
+			<c:if test="${SearchYN == 1}">
+				<a href='searchPro.do?pageNum=${i}&search=${search}'>[${i}]</a>
+			</c:if>
 		</c:forEach>
 		<c:if test="${endPage < pageCnt }">
+			
 			<a href='list.do?pageNum=${startPage+blockSize}'>[다음]</a>
+			
 		</c:if>
 	</div>
 </body>

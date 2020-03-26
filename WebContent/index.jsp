@@ -4,7 +4,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
-	location.href="list.do";
+	location.href="list.do?SearchYN=0";
 /* 	location.href="khome.do"; */
 </script>
 </head>
