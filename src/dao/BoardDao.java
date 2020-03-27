@@ -89,8 +89,10 @@ public class BoardDao {
 		Connection conn = null;	PreparedStatement pstmt= null; 
 		ResultSet rs = null;    int tot = 0;
 		//검색용 전체 건수
-		String sql = "select count(*) from board where subject like '%'||?||'%'";
-		try {
+		String sql = "select count(*) from board where lower(subject) like lower('%'||?||'%')";
+		System.out.println("getSearchCnt search-->" + search);  // /ch16/list.do
+		System.out.println("getSearchCnt sql-->" + sql);  // /ch16/list.do
+	try {
 			conn = getConnection();
 			//sql 구문을 이용하여 작업 준비
 			pstmt = conn.prepareStatement(sql);
@@ -116,18 +118,23 @@ public class BoardDao {
 		ResultSet rs = null;
 		// String sql = "select * from board order by num desc";
 	// mysql select * from board order by num desc limit startPage-1,10;
-		 String sql = "select * from(select rownum rn, a.* from"
-		 		+ "	(select * from board where subject like '%'||?||'%' order by ref desc,re_step) a) "
+		 String sql = "select * from(select rownum rn, a.* FROM "
+		 		+ "	(select * from board where lower(subject) like lower('%'||?||'%') order by ref desc,re_step) a) "
 		 		+ " where rn between ? and ?";
+			System.out.println("searchList sql-->" + sql);  // /ch16/list.do
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, search);
+			System.out.println("----------searchList search---------");
 			pstmt.setInt(2, startRow);
+			System.out.println("---------searchList-startrow---------");
 			pstmt.setInt(3, endRow);
+			System.out.println("----------searchList endros---------");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Board board = new Board();
+				System.out.println("----------searchList subject->" + rs.getString("subject"));
 				board.setNum(rs.getInt("num"));
 				board.setWriter(rs.getString("writer"));
 				board.setSubject(rs.getString("subject"));

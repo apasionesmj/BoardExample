@@ -16,10 +16,13 @@ public class SearchProAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 			BoardDao bd = BoardDao.getInstance();
 			try { 
+				request.setCharacterEncoding("utf-8");
 				String pageNum = request.getParameter("pageNum");
 				String search = request.getParameter("search");
+				System.out.println("search-->" + search);  // /ch16/list.do
 				// 전체 갯수를 가져오기 위하여 정의된 search 를 getSearchCnt 에 보내준다. 
 				int searchCnt  = bd.getSearchCnt(search);			
+				System.out.println("searchCnt-->" + searchCnt);  // /ch16/list.do
 				//pageNum 이 아무 값도 아니거나 빈값이면 1로 지정해준다.
 				if (pageNum==null || pageNum.equals("")) {	pageNum = "1";	}
 				//현재페이지 기록하기 위하여 받은 PageNum 을 currentPage 에 삽입
@@ -33,6 +36,7 @@ public class SearchProAction implements CommandProcess {
 				//시작번호를 구하기 위하여 검색 갯수 - 시작 번호 + 1 
 				int startNum = searchCnt - startRow + 1;
 				List<Board> searchList = bd.searchList(search, startRow, endRow);
+				System.out.println("searchList.size()-->" + searchList.size());  // /ch16/list.do
 				// 3.8보다 큰수중 가장 작은 정수
 				int pageCnt = (int)Math.ceil((double)searchCnt/pageSize);  // 4
 				int startPage = (int)(currentPage-1)/blockSize*blockSize + 1;
