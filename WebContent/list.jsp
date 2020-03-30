@@ -20,6 +20,10 @@ table {
 	<form action="searchPro.do?pageNum=${pageNum}" method="post">
 		<tr>
 			<td>검색</td>
+			<select name="searchYear" id="searchYear">
+				<option value="sell">팝니다</option>
+				<option value="buy">삽니다</option>
+			</select>
 			<!-- ${search} 는 검색창을 통하여 검색한 값을 유지하기 위함. -->
 			<td><input type="text" name="search" value="${search }"></td>
 			<td><input type="submit" value="확인"></td>
@@ -68,7 +72,7 @@ table {
 			</tr>
 		</c:if>
 	</table>
-	
+
 	<!-- 하위의 SearchYN 의 경우 검색 여부에 따라 링크 주소가 다르기 떄문에 If 조건 삽입. -->
 	<div style="text-align: center;">
 		<c:if test="${startPage > blockSize }">
@@ -76,7 +80,8 @@ table {
 				<a href='list.do?pageNum=${startPage-blockSize}'>[이전]</a>
 			</c:if>
 			<c:if test="${SearchYN == 1}">
-				<a href='searchPro.do?pageNum=${startPage-blockSize}&search=${search}'>[이전]</a>
+				<a
+					href='searchPro.do?pageNum=${startPage-blockSize}&search=${search}'>[이전]</a>
 			</c:if>
 		</c:if>
 		<c:forEach var="i" begin="${startPage}" end="${endPage}">
@@ -88,9 +93,9 @@ table {
 			</c:if>
 		</c:forEach>
 		<c:if test="${endPage < pageCnt }">
-			
+
 			<a href='list.do?pageNum=${startPage+blockSize}'>[다음]</a>
-			
+
 		</c:if>
 	</div>
 </body>
