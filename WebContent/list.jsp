@@ -19,14 +19,15 @@ table {
 	<h2>게시판</h2>
 	<form action="searchPro.do?pageNum=${pageNum}" method="post">
 		<tr>
-			<td>검색</td>
-			<select name="searchYear" id="searchYear">
+			<td></td>
+			<select name="sellBuy" id="sellBuy" onchange="searchSellbuy">
+				<option value="all">전체</option>
 				<option value="sell">팝니다</option>
 				<option value="buy">삽니다</option>
 			</select>
 			<!-- ${search} 는 검색창을 통하여 검색한 값을 유지하기 위함. -->
-			<td><input type="text" name="search" value="${search }"></td>
-			<td><input type="submit" value="확인"></td>
+			<input type="text" name="search" value="${search }"></td>
+			<td><input type="submit" value="검색"></td>
 		</tr>
 	</form>
 	<table>

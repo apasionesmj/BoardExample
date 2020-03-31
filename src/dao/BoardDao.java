@@ -126,15 +126,11 @@ public class BoardDao {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, search);
-			System.out.println("----------searchList search---------");
 			pstmt.setInt(2, startRow);
-			System.out.println("---------searchList-startrow---------");
 			pstmt.setInt(3, endRow);
-			System.out.println("----------searchList endros---------");
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Board board = new Board();
-				System.out.println("----------searchList subject->" + rs.getString("subject"));
 				board.setNum(rs.getInt("num"));
 				board.setWriter(rs.getString("writer"));
 				board.setSubject(rs.getString("subject"));

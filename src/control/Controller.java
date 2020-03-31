@@ -68,10 +68,7 @@ public class Controller extends HttpServlet {
 	              command = command.substring(request.getContextPath().length());
 	        //  }
 	          com = (CommandProcess)commandMap.get(command);  
-			  System.out.println("command=> "+ command);  // /ch16/com
-			  System.out.println("com=> "+ com);  // /ch16/com
 	          view = com.requestPro(request, response);
-			  System.out.println("view=> "+ view);  // /ch16/com
 	    } catch(Throwable e) { throw new ServletException(e); } 
 	    RequestDispatcher dispatcher =   request.getRequestDispatcher(view);
 	            dispatcher.forward(request, response);
