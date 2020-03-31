@@ -22,7 +22,7 @@ table {
 			<td></td>
 			<!-- select박스선택후 값이 유지되게 하기 위해서 <c:if test="${sellBuy=='BUY' }">selected</c:if> 삽입 -->
 			<select name="sellBuy" id="sellBuy">
-				<option value="ALL">전체</option>
+				<option value="ALL"<c:if test="${sellBuy=='ALL' }">selected</c:if>>전체</option>
 				<option value="SELL"<c:if test="${sellBuy=='SELL' }">selected</c:if>>팝니다</option>
 				<option value="BUY"<c:if test="${sellBuy=='BUY' }">selected</c:if>>삽니다</option>
 			</select>
