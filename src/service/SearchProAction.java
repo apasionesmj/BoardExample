@@ -20,8 +20,10 @@ public class SearchProAction implements CommandProcess {
 				String pageNum = request.getParameter("pageNum");
 				String search = request.getParameter("search");
 				System.out.println("search-->" + search);  
+				String sellBuy = request.getParameter("sellBuy");
+				System.out.println("sellBuy-->" + sellBuy);  
 				// 전체 갯수를 가져오기 위하여 정의된 search 를 getSearchCnt 에 보내준다. 
-				int searchCnt  = bd.getSearchCnt(search);			
+				int searchCnt  = bd.getSearchCnt(search, sellBuy);			
 				System.out.println("searchCnt-->" + searchCnt); 
 				//pageNum 이 아무 값도 아니거나 빈값이면 1로 지정해준다.
 				if (pageNum==null || pageNum.equals("")) {	pageNum = "1";	}
@@ -35,7 +37,7 @@ public class SearchProAction implements CommandProcess {
 				int endRow   = startRow + pageSize - 1;           // 10
 				//시작번호를 구하기 위하여 검색 갯수 - 시작 번호 + 1 
 				int startNum = searchCnt - startRow + 1;
-				List<Board> searchList = bd.searchList(search, startRow, endRow);
+				List<Board> searchList = bd.searchList(search, sellBuy, startRow, endRow);
 				System.out.println("searchList.size()-->" + searchList.size());  // /ch16/list.do
 				// 3.8보다 큰수중 가장 작은 정수
 				int pageCnt = (int)Math.ceil((double)searchCnt/pageSize);  // 4
@@ -60,6 +62,7 @@ public class SearchProAction implements CommandProcess {
 				request.setAttribute("SearchYN", SearchYN);
 				//검색한 값을 유지하기 위하여 search 라고 별도의 명칭으로 부여
 				request.setAttribute("search", search);
+				request.setAttribute("sellBuy", sellBuy);
 				 
 				System.out.println("-----------------------------------------------");  // /ch16/list.do
 				System.out.println("startNum-->" + startNum);  // /ch16/list.do

@@ -85,19 +85,23 @@ public class BoardDao {
 	}
 	
 	//검색에 해당하는 전체 값
-	public int getSearchCnt(String search) throws SQLException {
+	public int getSearchCnt(String search, String sellBuy) throws SQLException {
 		Connection conn = null;	PreparedStatement pstmt= null; 
 		ResultSet rs = null;    int tot = 0;
 		//검색용 전체 건수
-		String sql = "select count(*) from board where lower(subject) like lower('%'||?||'%')";
-		System.out.println("getSearchCnt search-->" + search);  // /ch16/list.do
-		System.out.println("getSearchCnt sql-->" + sql);  // /ch16/list.do
+		String sql = "select count(*) from board where lower(subject) like lower('%'||?||'%') and (sellbuy=? or 'ALL'=?)";
+		System.out.println("getSearchCnt search-->" + search); 
+		System.out.println("getSearchCnt sql-->" + sql); 
 	try {
 			conn = getConnection();
 			//sql 구문을 이용하여 작업 준비
 			pstmt = conn.prepareStatement(sql);
 			//첫번째 물음표에 search 값 삽입
 			pstmt.setString(1, search);
+			//sellBuy값이 sell,buy이거나 
+			pstmt.setString(2, sellBuy);
+			//sellBuy값이 all이거나
+			pstmt.setString(3, sellBuy);
 			//결과 값을 rs 에 삽입
 			rs = pstmt.executeQuery();
 			//첫 번째 값을 tot 에 삽입
@@ -112,22 +116,25 @@ public class BoardDao {
 	}	
 	
 	//검색 목록
-	public List<Board> searchList(String search, int startRow, int endRow) throws SQLException {
+	public List<Board> searchList(String search, String sellBuy, int startRow, int endRow) throws SQLException {
 		List<Board> list = new ArrayList<Board>();
 		Connection conn = null;	PreparedStatement pstmt= null;
 		ResultSet rs = null;
-		// String sql = "select * from board order by num desc";
-	// mysql select * from board order by num desc limit startPage-1,10;
 		 String sql = "select * from(select rownum rn, a.* FROM "
-		 		+ "	(select * from board where lower(subject) like lower('%'||?||'%') order by ref desc,re_step) a) "
+		 		+ "	(select * from board where lower(subject) like lower('%'||?||'%') and (sellbuy=? or 'ALL'=?) order by ref desc,re_step) a) "
 		 		+ " where rn between ? and ?";
-			System.out.println("searchList sql-->" + sql);  // /ch16/list.do
+			System.out.println("searchList sql-->" + sql);
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
+			//해당위치에 있는 물음표에 변수값 집어넣기
 			pstmt.setString(1, search);
-			pstmt.setInt(2, startRow);
-			pstmt.setInt(3, endRow);
+			//sellBuy값이 sell,buy이거나 
+			pstmt.setString(2, sellBuy);
+			//sellBuy값이 all이거나
+			pstmt.setString(3, sellBuy);
+			pstmt.setInt(4, startRow);
+			pstmt.setInt(5, endRow);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Board board = new Board();
@@ -139,7 +146,6 @@ public class BoardDao {
 				board.setIp(rs.getString("ip"));
 				board.setRef(rs.getInt("ref"));
 			//	board.setRe_level(rs.getInt("re_step"));
-				
 				board.setRe_level(rs.getInt("re_level"));
 				board.setRe_step(rs.getInt("re_step"));
 				board.setReg_date(rs.getDate("reg_date"));

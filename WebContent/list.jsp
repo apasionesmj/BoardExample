@@ -20,10 +20,11 @@ table {
 	<form action="searchPro.do?pageNum=${pageNum}" method="post">
 		<tr>
 			<td></td>
-			<select name="sellBuy" id="sellBuy" onchange="searchSellbuy">
-				<option value="all">전체</option>
-				<option value="sell">팝니다</option>
-				<option value="buy">삽니다</option>
+			<!-- select박스선택후 값이 유지되게 하기 위해서 <c:if test="${sellBuy=='BUY' }">selected</c:if> 삽입 -->
+			<select name="sellBuy" id="sellBuy">
+				<option value="ALL">전체</option>
+				<option value="SELL"<c:if test="${sellBuy=='SELL' }">selected</c:if>>팝니다</option>
+				<option value="BUY"<c:if test="${sellBuy=='BUY' }">selected</c:if>>삽니다</option>
 			</select>
 			<!-- ${search} 는 검색창을 통하여 검색한 값을 유지하기 위함. -->
 			<input type="text" name="search" value="${search }"></td>
